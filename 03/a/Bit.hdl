@@ -1,0 +1,24 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/Bit.hdl
+
+/**
+ * 1-bit register:
+ * If load[t] == 1 then out[t+1] = in[t]
+ *                 else out does not change (out[t+1] = out[t])
+ */
+
+CHIP Bit {
+    IN in, load;
+    OUT out;
+
+    PARTS:
+    // savedValue is 0 at first 
+    // when we have input as such in=1, load=1
+    // the output of the Mux chip is 1
+    // we save that output in the savedValue and also output it
+    // we later feed that saved value in the next clock cycle to input 'a' in the multiplexor which allows us to persist it
+    Mux(a=savedValue, b=in, sel=load, out=mux); 
+    DFF(in=mux, out=savedValue, out=out);
+}
